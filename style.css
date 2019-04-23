@@ -1,0 +1,13 @@
+li {
+  color: red;
+  list-style-type: none;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.completed {
+  color: green;
+  text-decoration: line-through;
+}
+
+/*# sourceMappingURL=style.css.map */

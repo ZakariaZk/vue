@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="vue.2.6.10"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <title>Hello Vue.js</title>
+</head>
+<div id = "app">  
+    <my-card>
+        <h3 slot="cardheader">Blog JavaScript</h3>
+        <div slot="cardbody">Visitez meanjs.com</div>
+    </my-card>
+    <hr>
+        
+   
+        <h2> utilisateur </h2>  
+     
+    <ul>
+        <user-list v-bind:data="users"v-bind:users-coming="userWelcom"> </user-list>
+    </ul>
+    <div v-for= "user in userWelcom">
+            {{user.id}} - {{user.email}}
+         </div>
+</div>
+<body> 
+<script>
+    Vue.component('my-card', {
+        template: '<div><slot name="cardheader">titre par défaut </slot>contenu par défaut<slot name="cardbody"></slot></div>'
+    });
+    Vue.component('user-list',{
+        template: '<div>\
+            <ul><li v-for="user in data"><user-details v-bind:usr="user" v-on:accept="registerUser(user)"></user-details></li></ul>\
+            </div>',
+            props: ['data','usersComing'],
+            methods: {
+                registerUser: function(user){
+                    this.usersComing.push(user);
+                }
+            }   
+        });
+        Vue.component('user-details',{
+            template: '<div>id: {{usr.id}}, ville: {{usr.adress.city}}, email: {{usr.email}} <button v-on:click="acceptInvitation">accept. invit. </button> </div>',
+            props: ['usr'],
+            methods: {
+                acceptInvitation: function() {
+                    this.$emit('accept');
+                }
+            }
+        })
+        var vm = new Vue ({
+            el: '#app',
+            data: { 
+                title: 'Lifecycle hooks',
+                usersUrl: 'https://jsonplaceholder.typicode.com/users',
+                users: [],
+                userWelcom: [],
+            },
+            beforeCreate: function() {
+                console.log('beforeCreate');
+                
+    },
+     created: function() {
+      axios.get(this.usersUrl)
+         .then(function(response){
+             vm.users = response.data;
+             console.log(vm.users);
+             
+         })
+     } 
+})
+</script>    
+</body>
+</html>
+    
+    
+    
+    
+    

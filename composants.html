@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <title>Hello Vue.js</title>
+</head>
+<div id="app">  
+<global-cmp></global-cmp>
+
+<my-cmp msg="voici un texte"color="rouge" ></my-cmp>
+<my-cmp v-bind:msg ="message" ></my-cmp>
+<my-cmp></my-cmp>
+
+</div>
+<body>
+  
+<script>
+
+Vue.component ('global-cmp', {
+    template: '<div>composant global</div>'
+});
+
+var myCmp = { 
+    data: function () {
+        return {
+            randomNumber: Math.floor(Math.random() * 100 )
+        }
+    },
+    template: '<p>composant local: {{randomNumber}} <button v-on:click="refreshNumber">rafraichir</button>Passé par le parent: {{msg}}: Ma couleur passé par le par {{color}}</p>',
+    methods: {
+        refreshNumber: function() {
+        this.randomNumber = Math.floor(Math.random() * 100 );
+
+}
+    },
+    props: ['msg','color']
+};
+      
+
+  var vm = new Vue ({
+      el: '#app',
+      components: { 'my-cmp': myCmp},
+      data: {
+          message: "salut enfant"
+      }
+  });
+</script>    
+</body>
+</html>
